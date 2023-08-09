@@ -7,6 +7,6 @@ import 'dart:ui';
   static const Color lightBlue = Color.fromRGBO(192, 229, 255, 1);
   static const Color lightGreen = Color.fromRGBO(191, 255, 231, 1);
   static const Color yellow = Color.fromRGBO(255, 242, 190, 1);
-   static  List <Color>colorPalette = [ pink,lightBlue,lightGreen,yellow];
+  static  List <Color>colorPalette = [ pink,lightBlue,lightGreen,yellow];
 
 }

@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:note_app/constant/color_palette.dart';
 import 'package:note_app/model/note_model.dart';
 
@@ -9,8 +10,9 @@ import '../edit/edit_page.dart';
 
 
 class NoteWidget extends StatefulWidget {
+  Callback onTap;
    NoteModel noteInfo;
-   NoteWidget({Key? key,required this.noteInfo}) : super(key: key);
+   NoteWidget({Key? key,required this.noteInfo, required this.onTap}) : super(key: key);
 
   @override
   State<NoteWidget> createState() => _NoteWidgetState();
@@ -21,9 +23,7 @@ class _NoteWidgetState extends State<NoteWidget> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context)=> EditPage(noteInfo: widget.noteInfo)));
-      },
+      onTap: widget.onTap,
       child: Container(
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
