@@ -3,7 +3,6 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:note_app/controller/note_controller.dart';
 import 'package:note_app/ui/edit/edit_page.dart';
 import 'package:note_app/ui/home/note_widget.dart';
-import 'package:note_app/model/note_model.dart';
 import 'package:get/get.dart';
 
 class HomePage extends StatefulWidget {
