@@ -101,6 +101,10 @@ class NoteController extends GetxController {
     notes.add(NoteModel(color: ColorPalette.yellow, title: "", content: ""));
     //update();
   }
+  clearField(){
+    titleController.clear();
+    contentController.clear();
+  }
 
 
 }

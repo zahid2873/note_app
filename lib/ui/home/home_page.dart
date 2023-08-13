@@ -24,6 +24,8 @@ class _HomePageState extends State<HomePage> {
         onPressed: () {
           Get.find<NoteController>().isEdit = false;
           final int index = Get.find<NoteController>().addNote();
+          Get.find<NoteController>().clearField();
+
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => EditPage(index: index)));
         },
@@ -49,6 +51,8 @@ class _HomePageState extends State<HomePage> {
                     noteInfo: controller.notes[index],
                     onTap: () {
                       Get.find<NoteController>().isEdit = true;
+                      Get.find<NoteController>().setEdit(index);
+
                       Navigator.push(
                         context,
                         MaterialPageRoute(
