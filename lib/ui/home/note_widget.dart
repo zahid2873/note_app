@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
-import 'package:note_app/constant/color_palette.dart';
 import 'package:note_app/model/note_model.dart';
 import 'package:note_app/ui/common/helper_function.dart';
 
 class NoteWidget extends StatelessWidget {
-  Callback onTap;
-  NoteModel noteInfo;
-  NoteWidget({Key? key, required this.noteInfo, required this.onTap})
+  final Callback onTap;
+  final NoteModel noteInfo;
+  const NoteWidget({Key? key, required this.noteInfo, required this.onTap})
       : super(key: key);
-
-  ColorPalette color = ColorPalette();
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +16,7 @@ class NoteWidget extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-            color: noteInfo.color,
-            borderRadius: BorderRadius.circular(15)),
+            color: noteInfo.color, borderRadius: BorderRadius.circular(15)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -36,9 +32,9 @@ class NoteWidget extends StatelessWidget {
             noteInfo.timestamp == null
                 ? const SizedBox()
                 : Text(
-                    getFormattedDate(noteInfo.timestamp!.toDate(),
-                        "dd/MM/yyyy HH:mm"),
-                    style: TextStyle(color: Colors.grey, fontSize: 12),
+                    getFormattedDate(
+                        noteInfo.timestamp!.toDate(), "dd/MM/yyyy HH:mm"),
+                    style: const TextStyle(color: Colors.grey, fontSize: 12),
                   ),
             const SizedBox(
               height: 5,

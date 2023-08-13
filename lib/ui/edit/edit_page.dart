@@ -16,7 +16,11 @@ class EditPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: noteController.notes[index].color,
       appBar: AppBar(
+        surfaceTintColor: Colors.white,
+        foregroundColor: Colors.black,
+        backgroundColor: noteController.notes[index].color,
         title: noteController.isEdit != false
             ? const Text("Edit Note")
             : const Text("Add Note"),
@@ -28,30 +32,31 @@ class EditPage extends StatelessWidget {
             icon: const Icon(Icons.arrow_back_ios_new)),
         actions: [
           PopupMenuButton(
-              position: PopupMenuPosition.under,
-              itemBuilder: (context) => [
-                    PopupMenuItem(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: MenuItemColor(index: index),
+            position: PopupMenuPosition.under,
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: MenuItemColor(index: index),
+              ),
+              PopupMenuItem(
+                onTap: () {
+                  noteController.deleteNote(index);
+                  Navigator.pop(context);
+                },
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: const Row(
+                  children: [
+                    Icon(
+                      Icons.delete,
+                      color: Colors.black,
                     ),
-                    PopupMenuItem(
-                      onTap: () {
-                        noteController.deleteNote(index);
-                        Navigator.pop(context);
-                      },
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: const Row(
-                        children: [
-                          Icon(
-                            Icons.delete,
-                            color: Colors.black,
-                          ),
-                          SizedBox(width: 10),
-                          Text("Delete")
-                        ],
-                      ),
-                    )
-                  ])
+                    SizedBox(width: 10),
+                    Text("Delete")
+                  ],
+                ),
+              )
+            ],
+          )
         ],
       ),
       body: SingleChildScrollView(
