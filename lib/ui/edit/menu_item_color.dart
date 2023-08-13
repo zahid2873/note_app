@@ -45,7 +45,8 @@ class MenuItemColor extends StatelessWidget {
           ),
           IconButton(
             onPressed: () {
-              controller.updateNoteColor(index, ColorPalette.lightBlue);
+              controller.updateNoteColor(index, ColorPalette.lightGreen);
+              Navigator.of(context).pop();
             },
             icon: const CircleAvatar(
               backgroundColor: ColorPalette.lightGreen,
@@ -54,6 +55,7 @@ class MenuItemColor extends StatelessWidget {
           IconButton(
             onPressed: () {
               controller.updateNoteColor(index, ColorPalette.yellow);
+              Navigator.of(context).pop();
             },
             icon: const CircleAvatar(
               backgroundColor: ColorPalette.yellow,
@@ -62,6 +64,7 @@ class MenuItemColor extends StatelessWidget {
           IconButton(
             onPressed: () {
               controller.updateNoteColor(index, ColorPalette.pink);
+              Navigator.of(context).pop();
             },
             icon: const CircleAvatar(
               backgroundColor: ColorPalette.pink,

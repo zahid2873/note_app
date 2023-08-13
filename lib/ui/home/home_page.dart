@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:go_router/go_router.dart';
 import 'package:note_app/controller/note_controller.dart';
 import 'package:note_app/ui/edit/edit_page.dart';
 import 'package:note_app/ui/home/note_widget.dart';
@@ -25,9 +26,8 @@ class _HomePageState extends State<HomePage> {
           Get.find<NoteController>().isEdit = false;
           final int index = Get.find<NoteController>().addNote();
           Get.find<NoteController>().clearField();
-
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => EditPage(index: index)));
+          GoRouter.of(context).pushNamed('edit_page',
+              pathParameters: {'index': index.toString()});
         },
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
         child: const Icon(Icons.add),
@@ -52,13 +52,8 @@ class _HomePageState extends State<HomePage> {
                     onTap: () {
                       Get.find<NoteController>().isEdit = true;
                       Get.find<NoteController>().setEdit(index);
-
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => EditPage(index: index),
-                        ),
-                      );
+                      GoRouter.of(context).pushNamed('edit_page',
+                          pathParameters: {'index': index.toString()});
                     },
                   );
                 },

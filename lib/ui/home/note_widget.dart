@@ -33,7 +33,7 @@ class NoteWidget extends StatelessWidget {
                 ? const SizedBox()
                 : Text(
                     getFormattedDate(
-                        noteInfo.timestamp!.toDate(), "dd/MM/yyyy HH:mm"),
+                        noteInfo.timestamp!.toDate(), "dd/MM/yyyy hh:mm a"),
                     style: const TextStyle(color: Colors.grey, fontSize: 12),
                   ),
             const SizedBox(
