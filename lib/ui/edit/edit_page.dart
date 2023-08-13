@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:note_app/constant/color_palette.dart';
 import 'package:note_app/controller/note_controller.dart';
+import 'package:note_app/db_helper/db_helper.dart';
 import 'package:note_app/ui/edit/menu_item1.dart';
 import 'package:note_app/ui/edit/menu_item2.dart';
 
@@ -17,12 +19,12 @@ class EditPage extends StatefulWidget {
 }
 
 class _EditPageState extends State<EditPage> {
-  final controller = Get.find<NoteController>();
+  final noteController = Get.find<NoteController>();
 
   @override
   void initState() {
     super.initState();
-    controller.setEdit(widget.index);
+   // noteController.setEdit(widget.index);
   }
 
   @override
@@ -30,7 +32,7 @@ class _EditPageState extends State<EditPage> {
     return Scaffold(
       //resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: const Text("Edit Note"),
+        title: noteController.isEdit != false? const Text("Edit Note"):const Text("Add Note"),
         centerTitle: true,
         leading: IconButton(
             onPressed: () {
@@ -41,14 +43,15 @@ class _EditPageState extends State<EditPage> {
           PopupMenuButton(
               position: PopupMenuPosition.under,
               itemBuilder: (context) => [
-                    const PopupMenuItem(child: MenuItem1()),
+                     PopupMenuItem(child: MenuItem1()),
                      PopupMenuItem(child: MenuItem2(index: widget.index))
                   ])
         ],
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
-        child: GetBuilder<NoteController>(builder: (controller) {
+        child: GetBuilder<NoteController>(
+            builder: (controller) {
           return Padding(
             padding: const EdgeInsets.all(10.0),
             child: Column(
@@ -61,7 +64,10 @@ class _EditPageState extends State<EditPage> {
                     controller.updateNote(widget.index);
                   },
                   controller: controller.titleController,
-                  decoration: const InputDecoration(
+                  decoration: noteController.isEdit==false? const InputDecoration(
+                    labelText: "Title",
+                    border: InputBorder.none,
+                  ):const InputDecoration(
                     border: InputBorder.none,
                   ),
                 ),
@@ -76,7 +82,13 @@ class _EditPageState extends State<EditPage> {
                       controller.updateNote(widget.index);
                     },
                     controller: controller.contentController,
-                    decoration: const InputDecoration(
+                    decoration: noteController.isEdit==false? const InputDecoration(
+
+                      label: Align(
+                        alignment: Alignment.topLeft,
+                          child: Text("Content")),
+                      border: InputBorder.none,
+                    ):const InputDecoration(
                       border: InputBorder.none,
                     ),
                   ),

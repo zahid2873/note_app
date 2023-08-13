@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:note_app/constant/color_palette.dart';
 import 'package:note_app/model/note_model.dart';
+import 'package:note_app/ui/common/helper_function.dart';
 
 
 
@@ -33,6 +34,8 @@ class _NoteWidgetState extends State<NoteWidget> {
             Text(widget.noteInfo.title!,
               style: const TextStyle(fontSize: 16, color: Colors.black, fontWeight: FontWeight.bold),
             ),
+            widget.noteInfo.timestamp==null ? const SizedBox() :
+            Text(getFormattedDate(widget.noteInfo.timestamp!.toDate(), "dd/MM/yyyy HH:mm"), style: TextStyle(color: Colors.grey,fontSize: 12),),
             const SizedBox(height: 5,),
             Text(widget.noteInfo.content ?? "",
               softWrap: false,
