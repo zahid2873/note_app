@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:note_app/constant/color_palette.dart';
-import 'package:note_app/db_helper/db_helper.dart';
 import 'package:note_app/model/note_model.dart';
 
 class NoteController extends GetxController {
@@ -82,10 +81,15 @@ class NoteController extends GetxController {
   }
 
   updateNote(int index) {
-    notes[index] = NoteModel(
-        timestamp: Timestamp.now(),
-        title: titleController.text,
-        content: contentController.text);
+    notes[index]
+      ..timestamp = Timestamp.now()
+      ..title = titleController.text
+      ..content = contentController.text;
+    update();
+  }
+
+  updateNoteColor(int index, Color color) {
+    notes[index].color = color;
     update();
   }
 
@@ -101,10 +105,9 @@ class NoteController extends GetxController {
     notes.add(NoteModel(color: ColorPalette.yellow, title: "", content: ""));
     //update();
   }
-  clearField(){
+
+  clearField() {
     titleController.clear();
     contentController.clear();
   }
-
-
 }
