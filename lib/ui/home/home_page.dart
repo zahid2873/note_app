@@ -22,6 +22,7 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          Get.find<NoteController>().isEdit = false;
           final int index = Get.find<NoteController>().addNote();
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => EditPage(index: index)));
@@ -47,6 +48,7 @@ class _HomePageState extends State<HomePage> {
                   return NoteWidget(
                     noteInfo: controller.notes[index],
                     onTap: () {
+                      Get.find<NoteController>().isEdit = true;
                       Navigator.push(
                         context,
                         MaterialPageRoute(

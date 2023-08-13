@@ -18,7 +18,8 @@ class _MenuItem2State extends State<MenuItem2> {
     return InkWell(
       onTap: ()  {
         controller.deleteNote(widget.index);
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>HomePage()));
+        Navigator.pop(context);
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>HomePage()));
 
       },
       child: const Row(
