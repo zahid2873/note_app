@@ -4,51 +4,55 @@ import 'package:note_app/constant/color_palette.dart';
 import 'package:note_app/model/note_model.dart';
 import 'package:note_app/ui/common/helper_function.dart';
 
-
-
-class NoteWidget extends StatefulWidget {
+class NoteWidget extends StatelessWidget {
   Callback onTap;
-   NoteModel noteInfo;
-   NoteWidget({Key? key,required this.noteInfo, required this.onTap}) : super(key: key);
+  NoteModel noteInfo;
+  NoteWidget({Key? key, required this.noteInfo, required this.onTap})
+      : super(key: key);
 
-  @override
-  State<NoteWidget> createState() => _NoteWidgetState();
-}
+  ColorPalette color = ColorPalette();
 
-class _NoteWidgetState extends State<NoteWidget> {
-  ColorPalette  color = ColorPalette();
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: widget.onTap,
+      onTap: onTap,
       child: Container(
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-          color: widget.noteInfo.color,
-          borderRadius: BorderRadius.circular(15)
-        ),
+            color: noteInfo.color,
+            borderRadius: BorderRadius.circular(15)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            widget.noteInfo.title==null ? const SizedBox() :
-            Text(widget.noteInfo.title!,
-              style: const TextStyle(fontSize: 16, color: Colors.black, fontWeight: FontWeight.bold),
+            noteInfo.title == null
+                ? const SizedBox()
+                : Text(
+                    noteInfo.title!,
+                    style: const TextStyle(
+                        fontSize: 16,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
+                  ),
+            noteInfo.timestamp == null
+                ? const SizedBox()
+                : Text(
+                    getFormattedDate(noteInfo.timestamp!.toDate(),
+                        "dd/MM/yyyy HH:mm"),
+                    style: TextStyle(color: Colors.grey, fontSize: 12),
+                  ),
+            const SizedBox(
+              height: 5,
             ),
-            widget.noteInfo.timestamp==null ? const SizedBox() :
-            Text(getFormattedDate(widget.noteInfo.timestamp!.toDate(), "dd/MM/yyyy HH:mm"), style: TextStyle(color: Colors.grey,fontSize: 12),),
-            const SizedBox(height: 5,),
-            Text(widget.noteInfo.content ?? "",
+            Text(
+              noteInfo.content ?? "",
               softWrap: false,
               maxLines: 10,
               overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.bodyMedium,),
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
           ],
         ),
       ),
     );
   }
-
-
-
 }
-   
