@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:go_router/go_router.dart';
 import 'package:note_app/controller/note_controller.dart';
-import 'package:note_app/ui/edit/edit_page.dart';
 import 'package:note_app/ui/home/note_widget.dart';
 import 'package:get/get.dart';
 
