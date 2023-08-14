@@ -17,4 +17,6 @@ class AuthService {
 
     return credential.user != null;
   }
+    static Future<void> logOut()=>_auth.signOut();
+
 }

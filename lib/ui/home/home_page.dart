@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:go_router/go_router.dart';
+import 'package:note_app/auth/auth_service.dart';
 import 'package:note_app/controller/note_controller.dart';
 import 'package:note_app/ui/home/note_widget.dart';
 import 'package:get/get.dart';
@@ -19,6 +20,14 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         centerTitle: true,
         title: const Text("Recent Notes"),
+        actions: [
+          IconButton(
+              onPressed: () {
+                AuthService.logOut();
+                GoRouter.of(context).pushReplacementNamed('login');
+              },
+              icon: const Icon(Icons.logout))
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
