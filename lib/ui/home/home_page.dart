@@ -19,12 +19,11 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text("Recent Notes"),
+        title:  const Text("Recent Notes"),
         actions: [
           IconButton(
               onPressed: () {
-                AuthService.logOut();
-                GoRouter.of(context).pushReplacementNamed('login');
+                AuthService.signOut(context: context);
               },
               icon: const Icon(Icons.logout))
         ],
