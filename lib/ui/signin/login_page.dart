@@ -1,7 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:note_app/auth/auth_service.dart';
+import 'package:get/get.dart';
+import 'package:note_app/controller/auth_controller.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -15,21 +14,24 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-          child: TextButton(
-              onPressed: () async {
-                User? user =
-                    await AuthService.signInWithGoogle(context: context);
-
-                if (user != null) {
-                  GoRouter.of(context).pushReplacementNamed('home');
-                } else {
-                  print('error');
-                }
-              },
-              child: const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [Icon(Icons.logo_dev), Text("Sign in with Google")],
-              ))),
+          child: GetBuilder<AuthController>(
+              init: AuthController(),
+              autoRemove: false,
+              builder: (authController) {
+                return authController.isLoading
+                    ? const CircularProgressIndicator()
+                    : ElevatedButton(
+                        onPressed: () async {
+                          authController.signIn();
+                        },
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.logo_dev),
+                            Text("Sign in with Google")
+                          ],
+                        ));
+              })),
     );
   }
 }

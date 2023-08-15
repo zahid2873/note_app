@@ -1,19 +1,17 @@
-import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:note_app/constant/color_palette.dart';
 
 class NoteModel {
   String uid;
   String? title;
   String? content;
-  Color? color;
+  String? color;
   Timestamp? timestamp;
 
   NoteModel(
       {required this.uid,
       this.title,
       this.content,
-      this.color = ColorPalette.lightBlue,
+      this.color,
       this.timestamp});
 
   Map<String, dynamic> toMap() {

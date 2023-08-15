@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 import 'package:note_app/controller/note_controller.dart';
 import 'package:note_app/ui/edit/menu_item_color.dart';
 
@@ -18,16 +19,17 @@ class EditPage extends StatelessWidget {
     return GetBuilder<NoteController>(
       builder: (noteController){
       return Scaffold(
-        backgroundColor: noteController.notes[index].color,
+        //backgroundColor: ,
         appBar: AppBar(
-          backgroundColor: getBackground(noteController.notes[index].color!),
+          //backgroundColor: getBackground(noteController.notes[index].color!),
           title: noteController.isEdit != false
               ? const Text("Edit Note")
               : const Text("Add Note"),
           centerTitle: true,
           leading: IconButton(
               onPressed: () {
-                Navigator.pop(context);
+                noteController.addNotes();
+                GoRouter.of(context).pop();
               },
               icon: const Icon(Icons.arrow_back_ios_new)),
           actions: [

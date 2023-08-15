@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:go_router/go_router.dart';
-import 'package:note_app/auth/auth_service.dart';
+import 'package:note_app/controller/auth_controller.dart';
 import 'package:note_app/controller/note_controller.dart';
 import 'package:note_app/ui/home/note_widget.dart';
 import 'package:get/get.dart';
@@ -19,13 +19,50 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title:  const Text("Recent Notes"),
+        title: const Text("Recent Notes"),
         actions: [
-          IconButton(
-              onPressed: () {
-                AuthService.signOut(context: context);
-              },
-              icon: const Icon(Icons.logout))
+          // IconButton(
+          //     onPressed: () {
+          //       Get.find<AuthController>().signOut();
+          //     },
+          //     icon: const Icon(Icons.logout)),
+          PopupMenuButton(
+            position: PopupMenuPosition.under,
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                onTap: () {
+                  GoRouter.of(context).pushNamed('profile_page');
+                },
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: const Row(
+                  children: [
+                    Icon(
+                      Icons.person,
+                      color: Colors.black,
+                    ),
+                    SizedBox(width: 10),
+                    Text("Profile")
+                  ],
+                ),
+              ),
+              PopupMenuItem(
+                onTap: () {
+                  Get.find<AuthController>().signOut();
+                },
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: const Row(
+                  children: [
+                    Icon(
+                      Icons.logout,
+                      color: Colors.black,
+                    ),
+                    SizedBox(width: 10),
+                    Text("Logout")
+                  ],
+                ),
+              )
+            ],
+          )
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -44,27 +81,29 @@ class _HomePageState extends State<HomePage> {
           builder: (controller) {
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 14),
-              child: MasonryGridView.builder(
-                physics: const BouncingScrollPhysics(),
-                itemCount: controller.notes.length,
-                mainAxisSpacing: 10,
-                crossAxisSpacing: 10,
-                gridDelegate:
-                    const SliverSimpleGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                ),
-                itemBuilder: (context, index) {
-                  return NoteWidget(
-                    noteInfo: controller.notes[index],
-                    onTap: () {
-                      Get.find<NoteController>().isEdit = true;
-                      Get.find<NoteController>().setEdit(index);
-                      GoRouter.of(context).pushNamed('edit_page',
-                          pathParameters: {'index': index.toString()});
-                    },
-                  );
-                },
-              ),
+              child: controller.notes.isEmpty
+                  ? const CircularProgressIndicator()
+                  : MasonryGridView.builder(
+                      physics: const BouncingScrollPhysics(),
+                      itemCount: controller.notes.length,
+                      mainAxisSpacing: 10,
+                      crossAxisSpacing: 10,
+                      gridDelegate:
+                          const SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                      ),
+                      itemBuilder: (context, index) {
+                        return NoteWidget(
+                          noteInfo: controller.notes[index],
+                          onTap: () {
+                            Get.find<NoteController>().isEdit = true;
+                            Get.find<NoteController>().setEdit(index);
+                            GoRouter.of(context).pushNamed('edit_page',
+                                pathParameters: {'index': index.toString()});
+                          },
+                        );
+                      },
+                    ),
             );
           }),
     );

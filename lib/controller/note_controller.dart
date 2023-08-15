@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:note_app/auth/auth_service.dart';
 import 'package:note_app/constant/color_palette.dart';
+import 'package:note_app/controller/auth_controller.dart';
 import 'package:note_app/model/note_model.dart';
+
+import '../db_helper/db_helper.dart';
 
 class NoteController extends GetxController {
   bool isSignIn = false;
@@ -11,11 +14,11 @@ class NoteController extends GetxController {
   bool isEdit = true;
   TextEditingController titleController = TextEditingController();
   TextEditingController contentController = TextEditingController();
-
+  final authController = Get.find<AuthController>();
   @override
   void onInit() {
     super.onInit();
-    //fetchNote();
+    fetchNote();
   }
 
   // fetchNote() {
@@ -69,9 +72,9 @@ class NoteController extends GetxController {
 
   int addNote() {
     notes.add(NoteModel(
-        uid: AuthService.users!.uid,
+        uid: '',
         timestamp: Timestamp.now(),
-        color: ColorPalette.yellow,
+        color: "",
         title: "",
         content: ""));
     update();
@@ -92,7 +95,7 @@ class NoteController extends GetxController {
   }
 
   updateNoteColor(int index, Color color) {
-    notes[index].color = color;
+    notes[index].color = "";
     update();
   }
 
@@ -105,16 +108,30 @@ class NoteController extends GetxController {
   }
 
   setAdd() {
-    notes.add(NoteModel(
-        uid: AuthService.users!.uid,
-        color: ColorPalette.yellow,
-        title: "",
-        content: ""));
+    notes.add(NoteModel(uid: '', color: "", title: "", content: ""));
     //update();
   }
 
   clearField() {
     titleController.clear();
     contentController.clear();
+  }
+
+  addNotes() {
+    final noteModel = NoteModel(
+        uid: authController.user!.uid,
+        title: titleController.text,
+        content: contentController.text,
+        timestamp: Timestamp.now());
+    DbHelper.addNote(noteModel);
+    update();
+  }
+
+  fetchNote() {
+    DbHelper.getNoteById(authController.user!.uid).listen((snapshot) {
+      notes = List.generate(snapshot.docs.length,
+          (index) => NoteModel.fromMap(snapshot.docs[index].data()));
+    });
+    update();
   }
 }
