@@ -22,10 +22,10 @@ GoRouter router = GoRouter(navigatorKey: key, routes: [
       }),
   GoRoute(
       name: 'edit_page',
-      path: '/edit_page/:index',
+      path: '/edit_page/:documentId',
       builder: (context, state) {
         return EditPage(
-          index: int.parse(state.pathParameters['index']!),
+          documentId: state.pathParameters['documentId']!,
         );
       }),
   GoRoute(

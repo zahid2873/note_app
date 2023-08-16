@@ -14,6 +14,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final noteController = Get.put(NoteController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,11 +22,6 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
         title: const Text("Recent Notes"),
         actions: [
-          // IconButton(
-          //     onPressed: () {
-          //       Get.find<AuthController>().signOut();
-          //     },
-          //     icon: const Icon(Icons.logout)),
           PopupMenuButton(
             position: PopupMenuPosition.under,
             itemBuilder: (context) => [
@@ -65,26 +61,49 @@ class _HomePageState extends State<HomePage> {
           )
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Get.find<NoteController>().isEdit = false;
-          final int index = Get.find<NoteController>().addNote();
-          Get.find<NoteController>().clearField();
-          GoRouter.of(context).pushNamed('edit_page',
-              pathParameters: {'index': index.toString()});
-          Get.find<NoteController>().addNotes();
-        },
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-        child: const Icon(Icons.add),
+      floatingActionButton: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          FloatingActionButton(
+            heroTag: 'btn1',
+            onPressed: () async {
+              // var documentId = await noteController.addNotes();
+              //  GoRouter.of(context).pushNamed('edit_page',pathParameters: {'documentId': documentId});
+              noteController.addNote().then((documentId) {
+                GoRouter.of(context).pushNamed('edit_page',
+                    pathParameters: {'documentId': documentId});
+              }).onError((error, stackTrace) {
+                debugPrint(error.toString());
+                debugPrint(stackTrace.toString());
+              });
+            },
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+            child: const Icon(Icons.add),
+          ),
+          const SizedBox(height: 5),
+          FloatingActionButton(
+            heroTag: 'btn2',
+            onPressed: () async {
+              // var documentId = await noteController.addNotes();
+              //  GoRouter.of(context).pushNamed('edit_page',pathParameters: {'documentId': documentId});
+              noteController.fetchNotes();
+            },
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+            child: const Icon(Icons.refresh),
+          ),
+        ],
       ),
       body: GetBuilder<NoteController>(
           init: NoteController(),
           builder: (controller) {
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 14),
-              child: controller.notes.isEmpty
-                  ? const CircularProgressIndicator()
+              child: controller.isLoading
+                  ? const Center(child: CircularProgressIndicator())
                   : MasonryGridView.builder(
+                      shrinkWrap: true,
                       physics: const BouncingScrollPhysics(),
                       itemCount: controller.notes.length,
                       mainAxisSpacing: 10,
@@ -97,10 +116,10 @@ class _HomePageState extends State<HomePage> {
                         return NoteWidget(
                           noteInfo: controller.notes[index],
                           onTap: () {
-                            Get.find<NoteController>().isEdit = true;
-                            Get.find<NoteController>().setEdit(index);
-                            GoRouter.of(context).pushNamed('edit_page',
-                                pathParameters: {'index': index.toString()});
+                            GoRouter.of(context)
+                                .pushNamed('edit_page', pathParameters: {
+                              'documentId': controller.notes[index].documentId
+                            });
                           },
                         );
                       },
