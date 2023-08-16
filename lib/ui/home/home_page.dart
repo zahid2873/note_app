@@ -72,6 +72,7 @@ class _HomePageState extends State<HomePage> {
           Get.find<NoteController>().clearField();
           GoRouter.of(context).pushNamed('edit_page',
               pathParameters: {'index': index.toString()});
+          Get.find<NoteController>().addNotes();
         },
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
         child: const Icon(Icons.add),

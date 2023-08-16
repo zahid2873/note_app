@@ -12,10 +12,21 @@ class DbHelper {
   //     String uid) =>
   //     _db.collection(_collectionNote).doc(uid).snapshots();
 
-       static Stream<QuerySnapshot<Map<String, dynamic>>> getNoteById(
-      String uid) =>
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getNoteById(
+          String userId) =>
       _db
           .collection(_collectionNote)
-          .where(_collectionNote, isEqualTo: uid)
+          //.orderBy(noteTimestamp,descending: true)
+          .where(noteUserId, isEqualTo: userId)
+          //.orderBy(noteTimestamp,descending: true)
           .snapshots();
+
+  static Future<void> removeNote(String uid, String timestamp) {
+    return _db
+        .collection(_collectionNote)
+        .doc(uid)
+        .collection(_collectionNote)
+        .doc(timestamp)
+        .delete();
+  }
 }

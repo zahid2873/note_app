@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:note_app/auth/auth_service.dart';
-import 'package:note_app/constant/color_palette.dart';
 import 'package:note_app/controller/auth_controller.dart';
 import 'package:note_app/model/note_model.dart';
 
@@ -128,10 +126,17 @@ class NoteController extends GetxController {
   }
 
   fetchNote() {
-    DbHelper.getNoteById(authController.user!.uid).listen((snapshot) {
+     DbHelper.getNoteById(authController.user!.uid)
+        .listen((snapshot) {
       notes = List.generate(snapshot.docs.length,
           (index) => NoteModel.fromMap(snapshot.docs[index].data()));
+      update();
     });
+
+  }
+
+   deletedNote(String timestamp) {
+    DbHelper.removeNote(authController.user!.uid, timestamp);
     update();
   }
 }

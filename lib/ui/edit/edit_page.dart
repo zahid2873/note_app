@@ -28,7 +28,6 @@ class EditPage extends StatelessWidget {
           centerTitle: true,
           leading: IconButton(
               onPressed: () {
-                noteController.addNotes();
                 GoRouter.of(context).pop();
               },
               icon: const Icon(Icons.arrow_back_ios_new)),
@@ -43,6 +42,7 @@ class EditPage extends StatelessWidget {
                 PopupMenuItem(
                   onTap: () {
                     noteController.deleteNote(index);
+                   // noteController.deletedNote(noteController.notes[index].timestamp)
                     Navigator.pop(context);
                   },
                   padding: const EdgeInsets.symmetric(horizontal: 16),

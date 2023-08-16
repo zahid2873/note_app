@@ -4,10 +4,12 @@ import 'package:go_router/go_router.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:note_app/auth/auth_service.dart';
 import 'package:note_app/route/route_configuration.dart';
+import 'package:note_app/ui/common/helper_function.dart';
 
 class AuthController extends GetxController {
   User? user;
   bool isLoading = false;
+
   signIn() async {
     isLoading = true;
     update();
@@ -18,7 +20,7 @@ class AuthController extends GetxController {
         GoRouter.of(key.currentState!.context).pushReplacementNamed('home');
       }
     } on Exception catch (e) {
-      // TODO
+      showInToast("$e");
     } finally {
       isLoading = false;
       update();
@@ -30,6 +32,8 @@ class AuthController extends GetxController {
     try {
       await googleSignIn.signOut();
       GoRouter.of(key.currentState!.context).pushReplacementNamed('login');
-    } catch (e) {}
+    } catch (e) {
+      showInToast("$e");
+    }
   }
 }

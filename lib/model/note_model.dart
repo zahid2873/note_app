@@ -1,5 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+const String noteUserId = 'uid';
+const String noteTimestamp = 'timestamp';
+
+
 class NoteModel {
   String uid;
   String? title;
