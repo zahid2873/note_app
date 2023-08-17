@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
+import 'package:note_app/constant/color_palette.dart';
 import 'package:note_app/controller/note_controller.dart';
+import 'package:note_app/model/note_model.dart';
+import 'package:note_app/ui/edit/menu_item_color.dart';
 
 class EditPage extends StatefulWidget {
   final String documentId;
@@ -17,20 +20,27 @@ class EditPage extends StatefulWidget {
 
 class _EditPageState extends State<EditPage> {
   final noteController = Get.find<NoteController>();
+  NoteModel? note;
 
   @override
   void initState() {
     super.initState();
     noteController.fetchNote(widget.documentId);
+
+    
   }
 
   @override
   Widget build(BuildContext context) {
     return GetBuilder<NoteController>(builder: (noteController) {
       return Scaffold(
-        //backgroundColor: ,
+        backgroundColor: noteController.note?.color != null
+                ? Color(noteController.note!.color!).withOpacity(1)
+                : Color(ColorPalette.teal).withOpacity(1) ,
         appBar: AppBar(
-          //backgroundColor: getBackground(noteController.notes[index].color!),
+          backgroundColor:  noteController.note?.color != null
+                ? Color(noteController.note!.color!).withOpacity(1)
+                : Color(ColorPalette.teal).withOpacity(1) ,
           title: const Text("Edit Note"),
           centerTitle: true,
           leading: IconButton(
@@ -42,10 +52,10 @@ class _EditPageState extends State<EditPage> {
             PopupMenuButton(
               position: PopupMenuPosition.under,
               itemBuilder: (context) => [
-                // PopupMenuItem(
-                //   padding: const EdgeInsets.symmetric(horizontal: 16),
-                //   child: MenuItemColor(index: index),
-                // ),
+                PopupMenuItem(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: MenuItemColor(documentId: widget.documentId),
+                ),
                 PopupMenuItem(
                   onTap: () {
                     noteController.deleteNote(widget.documentId);

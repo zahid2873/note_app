@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
+import 'package:note_app/constant/color_palette.dart';
 import 'package:note_app/model/note_model.dart';
 import 'package:note_app/ui/common/helper_function.dart';
 
@@ -16,8 +17,10 @@ class NoteWidget extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-            //color: noteInfo.color,
-             borderRadius: BorderRadius.circular(15)),
+            color: noteInfo.color != null
+                ? Color(noteInfo.color!).withOpacity(1)
+                : Color(ColorPalette.teal).withOpacity(1),
+            borderRadius: BorderRadius.circular(15)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

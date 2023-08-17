@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:note_app/constant/color_palette.dart';
 import 'package:note_app/controller/auth_controller.dart';
 import 'package:note_app/db_helper/db_helper.dart';
 import 'package:note_app/model/note_model.dart';
@@ -8,6 +9,7 @@ import 'package:note_app/model/note_model.dart';
 class NoteController extends GetxController {
   bool isLoading = false;
   List<NoteModel> notes = [];
+  //int? selectedColor;
   NoteModel? note;
 
   TextEditingController titleController = TextEditingController();
@@ -23,6 +25,7 @@ class NoteController extends GetxController {
     final noteModel = NoteModel(
         uid: authController.user!.uid,
         documentId: '',
+        // color: ColorPalette.colorPink,
         title: titleController.text,
         content: contentController.text,
         timestamp: Timestamp.now());
@@ -61,6 +64,21 @@ class NoteController extends GetxController {
     fetchNotes();
   }
 
+  updateNoteColor(String docId,int selectedColor) {
+    note?.color = selectedColor;
+    final noteModel = NoteModel(
+        uid: authController.user!.uid,
+        documentId: docId,
+        title: titleController.text,
+        content: contentController.text,
+        color: selectedColor,
+        timestamp: Timestamp.now());
+    DbHelper.updateNote(docId, noteModel);
+    update();
+    fetchNotes();
+  }
+  
+
   clearField() {
     titleController.clear();
     contentController.clear();
@@ -73,8 +91,5 @@ class NoteController extends GetxController {
     fetchNotes();
   }
 
-  // updateNoteColor(int index, Color color) {
-  //   notes[index].color = "";
-  //   update();
-  // }
+  
 }

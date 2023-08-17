@@ -8,7 +8,7 @@ class NoteModel {
   String documentId;
   String? title;
   String? content;
-  String? color;
+  int? color;
   Timestamp? timestamp;
 
   NoteModel({

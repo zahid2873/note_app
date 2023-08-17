@@ -4,9 +4,11 @@ import 'package:note_app/constant/color_palette.dart';
 import 'package:note_app/controller/note_controller.dart';
 
 class MenuItemColor extends StatelessWidget {
-  final int index;
+  String documentId;
+
+  MenuItemColor({Key? key, required this.documentId}) : super(key: key);
+
   final controller = Get.find<NoteController>();
-  MenuItemColor({Key? key, required this.index}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,38 +38,40 @@ class MenuItemColor extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-              controller.updateNoteColor(index, ColorPalette.lightBlue);
+              //controller.updateNoteColor(index, ColorPalette.lightBlue);
+              //controller.selectedColor = ColorPalette.colorLightBlue;
+              controller.updateNoteColor(documentId, ColorPalette.brown);
               Navigator.of(context).pop();
             },
             icon: const CircleAvatar(
-              backgroundColor: ColorPalette.lightBlue,
+              backgroundColor: Color(0xFFDBFE87),
             ),
           ),
           IconButton(
             onPressed: () {
-              controller.updateNoteColor(index, ColorPalette.lightGreen);
+              controller.updateNoteColor(documentId, ColorPalette.yellow);
               Navigator.of(context).pop();
             },
             icon: const CircleAvatar(
-              backgroundColor: ColorPalette.lightGreen,
+              backgroundColor: Color(0xFFFFFD82),
             ),
           ),
           IconButton(
             onPressed: () {
-              controller.updateNoteColor(index, ColorPalette.yellow);
+              controller.updateNoteColor(documentId, ColorPalette.teal);
               Navigator.of(context).pop();
             },
             icon: const CircleAvatar(
-              backgroundColor: ColorPalette.yellow,
+              backgroundColor: Color(0xFF1BE7FF),
             ),
           ),
           IconButton(
             onPressed: () {
-              controller.updateNoteColor(index, ColorPalette.pink);
+              controller.updateNoteColor(documentId, ColorPalette.grayis);
               Navigator.of(context).pop();
             },
             icon: const CircleAvatar(
-              backgroundColor: ColorPalette.pink,
+              backgroundColor: Color(0xFFE0E1DD),
             ),
           ),
         ],
