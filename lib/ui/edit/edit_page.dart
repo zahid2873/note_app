@@ -26,8 +26,6 @@ class _EditPageState extends State<EditPage> {
   void initState() {
     super.initState();
     noteController.fetchNote(widget.documentId);
-
-    
   }
 
   @override
@@ -35,12 +33,15 @@ class _EditPageState extends State<EditPage> {
     return GetBuilder<NoteController>(builder: (noteController) {
       return Scaffold(
         backgroundColor: noteController.note?.color != null
-                ? Color(noteController.note!.color!).withOpacity(1)
-                : Color(ColorPalette.teal).withOpacity(1) ,
+            ? Color(noteController.note!.color!).withOpacity(1)
+            : Color(ColorPalette.teal).withOpacity(1),
         appBar: AppBar(
-          backgroundColor:  noteController.note?.color != null
-                ? Color(noteController.note!.color!).withOpacity(1)
-                : Color(ColorPalette.teal).withOpacity(1) ,
+          backgroundColor: noteController.note?.color != null
+              ? getBackground(noteController.note!.color!)
+              : getBackground(ColorPalette.teal).withOpacity(1),
+          // backgroundColor: noteController.note?.color != null
+          //     ? Color(noteController.note!.color!).withOpacity(1)
+          //     : Color(ColorPalette.teal).withOpacity(1),
           title: const Text("Edit Note"),
           centerTitle: true,
           leading: IconButton(
@@ -129,7 +130,8 @@ class _EditPageState extends State<EditPage> {
     });
   }
 
-  Color getBackground(Color color) {
+  Color getBackground(int clr) {
+    final color = Color(clr).withOpacity(1);
     final Color newColor = Color.fromARGB(
         255, darken(color.red), darken(color.green), darken(color.blue));
     return newColor;

@@ -38,8 +38,6 @@ class MenuItemColor extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-              //controller.updateNoteColor(index, ColorPalette.lightBlue);
-              //controller.selectedColor = ColorPalette.colorLightBlue;
               controller.updateNoteColor(documentId, ColorPalette.brown);
               Navigator.of(context).pop();
             },

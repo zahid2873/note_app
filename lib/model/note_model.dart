@@ -2,8 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 const String noteUserId = 'uid';
 const String noteTimestamp = 'timestamp';
+const String isSeleted = 'isSeleted';
 
 class NoteModel {
+  bool isSelected;
   String uid;
   String documentId;
   String? title;
@@ -12,6 +14,7 @@ class NoteModel {
   Timestamp? timestamp;
 
   NoteModel({
+    this.isSelected = false,
     required this.uid,
     required this.documentId,
     this.title,

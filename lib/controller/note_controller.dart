@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:note_app/constant/color_palette.dart';
 import 'package:note_app/controller/auth_controller.dart';
 import 'package:note_app/db_helper/db_helper.dart';
 import 'package:note_app/model/note_model.dart';
@@ -9,7 +8,7 @@ import 'package:note_app/model/note_model.dart';
 class NoteController extends GetxController {
   bool isLoading = false;
   List<NoteModel> notes = [];
-  //int? selectedColor;
+  bool isMultiSelect = false;
   NoteModel? note;
 
   TextEditingController titleController = TextEditingController();
@@ -25,7 +24,6 @@ class NoteController extends GetxController {
     final noteModel = NoteModel(
         uid: authController.user!.uid,
         documentId: '',
-        // color: ColorPalette.colorPink,
         title: titleController.text,
         content: contentController.text,
         timestamp: Timestamp.now());
@@ -64,7 +62,7 @@ class NoteController extends GetxController {
     fetchNotes();
   }
 
-  updateNoteColor(String docId,int selectedColor) {
+  updateNoteColor(String docId, int selectedColor) {
     note?.color = selectedColor;
     final noteModel = NoteModel(
         uid: authController.user!.uid,
@@ -77,7 +75,6 @@ class NoteController extends GetxController {
     update();
     fetchNotes();
   }
-  
 
   clearField() {
     titleController.clear();
@@ -91,5 +88,37 @@ class NoteController extends GetxController {
     fetchNotes();
   }
 
-  
+  void enableMultiSelect(int index) {
+    isMultiSelect = true;
+    notes[index].isSelected = true;
+    update();
+  }
+
+  void disableMultiSelect() {
+    isMultiSelect = false;
+  }
+
+  void selectNote(int index) {
+    notes[index].isSelected = true;
+    update();
+  }
+
+  void unSelectNote(int index) {
+    notes[index].isSelected = false;
+    var list = notes.where(
+      (element) => element.isSelected,
+    );
+    if (list.isEmpty) {
+      disableMultiSelect();
+    }
+    update();
+  }
+
+  void deleteSelectedNote(int index) {
+    notes[index].isSelected = false;
+    var list = notes.where(
+      (element) => element.isSelected,
+    );
+    
+  }
 }

@@ -39,8 +39,16 @@ class DbHelper {
   static updateNote(String docId, NoteModel noteModel) async {
     await _db.collection(_collectionNote).doc(docId).set(noteModel.toMap());
   }
-static deleteNote (String documentId){
-  _db.collection(_collectionNote).doc(documentId).delete();
-}
 
+  static deleteNote(String documentId) {
+    _db.collection(_collectionNote).doc(documentId).delete();
+  }
+
+  // static deleteNote(String documentId) {
+  //   _db.collection(_collectionNote).get().then((snapshot) {
+  // for (DocumentSnapshot ds in snapshot.docs.where(('field') == 'specificValue'){
+  //   ds.reference.delete();
+  //   });
+  // });
+  // }
 }
