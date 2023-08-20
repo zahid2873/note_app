@@ -10,6 +10,12 @@ class AuthController extends GetxController {
   User? user;
   bool isLoading = false;
 
+  @override
+  void onInit() {
+    super.onInit();
+    signInSilently();
+  }
+
   signIn() async {
     isLoading = true;
     update();
@@ -25,6 +31,10 @@ class AuthController extends GetxController {
       isLoading = false;
       update();
     }
+  }
+
+  signInSilently() async {
+    user = await AuthService.signInSilently();
   }
 
   signOut() async {

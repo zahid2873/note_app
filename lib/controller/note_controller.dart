@@ -10,6 +10,7 @@ class NoteController extends GetxController {
   List<NoteModel> notes = [];
   bool isMultiSelect = false;
   NoteModel? note;
+  var deleteList = [];
 
   TextEditingController titleController = TextEditingController();
   TextEditingController contentController = TextEditingController();
@@ -24,8 +25,8 @@ class NoteController extends GetxController {
     final noteModel = NoteModel(
         uid: authController.user!.uid,
         documentId: '',
-        title: titleController.text,
-        content: contentController.text,
+        title: '',
+        content: '',
         timestamp: Timestamp.now());
     String documentId = await DbHelper.addNote(noteModel);
     update();
@@ -76,9 +77,11 @@ class NoteController extends GetxController {
     fetchNotes();
   }
 
-  clearField() {
+  clearField() async {
+    note = await null;
     titleController.clear();
     contentController.clear();
+    update();
   }
 
   deleteNote(String documentId) async {
@@ -114,11 +117,21 @@ class NoteController extends GetxController {
     update();
   }
 
-  void deleteSelectedNote(int index) {
-    notes[index].isSelected = false;
-    var list = notes.where(
-      (element) => element.isSelected,
-    );
-    
+  void deleteSelectedNote() async {
+    isLoading = true;
+    update();
+    disableMultiSelect();
+    List<NoteModel> list = notes
+        .where(
+          (element) => element.isSelected,
+        )
+        .toList();
+    if (await DbHelper.batchDelete(list)) {
+      for (var element in list) {
+        notes.removeWhere((value) => value.documentId == element.documentId);
+      }
+    }
+    isLoading = false;
+    update();
   }
 }

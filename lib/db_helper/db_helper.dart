@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:note_app/model/note_model.dart';
 
 class DbHelper {
@@ -51,4 +52,21 @@ class DbHelper {
   //   });
   // });
   // }
+
+  static Future<bool> batchDelete(List<NoteModel> docList) async {
+    try {
+      WriteBatch batch = _db.batch();
+      for (var element in docList) {
+        final documnet =
+            _db.collection(_collectionNote).doc(element.documentId);
+        batch.delete(documnet);
+      }
+
+      await batch.commit();
+    } on Exception catch (e, s) {
+      debugPrint("Error: $e, Stack: $s");
+      return false;
+    }
+    return true;
+  }
 }

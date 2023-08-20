@@ -38,4 +38,8 @@ class AuthService {
 
     return user;
   }
+
+  static Future<User?> signInSilently() async {
+    return FirebaseAuth.instance.currentUser;
+  }
 }

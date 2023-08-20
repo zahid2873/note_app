@@ -25,7 +25,6 @@ class _HomePageState extends State<HomePage> {
               ? "${controller.notes.where((element) => element.isSelected).length} selected"
               : "Recent Notes");
         }),
-       
         actions: [
           PopupMenuButton(
             position: PopupMenuPosition.under,
@@ -66,55 +65,54 @@ class _HomePageState extends State<HomePage> {
           )
         ],
       ),
-      floatingActionButton: GetBuilder<NoteController>(
-        builder: (controller) {
-          if(controller.isMultiSelect){
-            return  FloatingActionButton(
-                heroTag: 'btn3',
-                onPressed: () async {
-                  
-                },
-                shape:
-                    RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                child: const Icon(Icons.delete),
-              );
-          }
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              FloatingActionButton(
-                heroTag: 'btn1',
-                onPressed: () async {
-                  // var documentId = await noteController.addNotes();
-                  //  GoRouter.of(context).pushNamed('edit_page',pathParameters: {'documentId': documentId});
-                  noteController.addNote().then((documentId) {
-                    GoRouter.of(context).pushNamed('edit_page',
-                        pathParameters: {'documentId': documentId});
-                  }).onError((error, stackTrace) {
-                    debugPrint(error.toString());
-                    debugPrint(stackTrace.toString());
-                  });
-                },
-                shape:
-                    RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                child: const Icon(Icons.add),
-              ),
-              const SizedBox(height: 5),
-              FloatingActionButton(
-                heroTag: 'btn2',
-                onPressed: () async {
-                  // var documentId = await noteController.addNotes();
-                  //  GoRouter.of(context).pushNamed('edit_page',pathParameters: {'documentId': documentId});
-                  noteController.fetchNotes();
-                },
-                shape:
-                    RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                child: const Icon(Icons.refresh),
-              ),
-            ],
+      floatingActionButton: GetBuilder<NoteController>(builder: (controller) {
+        if (controller.isMultiSelect) {
+          return FloatingActionButton(
+            heroTag: 'btn3',
+            onPressed: () async {
+              controller.deleteSelectedNote();
+            },
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+            child: const Icon(Icons.delete),
           );
         }
-      ),
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            FloatingActionButton(
+              heroTag: 'btn1',
+              onPressed: () async {
+                var documentId = await noteController.addNote();
+                GoRouter.of(context).pushNamed('edit_page',
+                    pathParameters: {'documentId': documentId});
+                // noteController.addNote().then((documentId) {
+                //   GoRouter.of(context).pushNamed('edit_page',
+                //       pathParameters: {'documentId': documentId});
+                // }).onError((error, stackTrace) {
+                //   debugPrint(error.toString());
+                //   debugPrint(stackTrace.toString());
+                // });
+              },
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30)),
+              child: const Icon(Icons.add),
+            ),
+            const SizedBox(height: 5),
+            FloatingActionButton(
+              heroTag: 'btn2',
+              onPressed: () async {
+                // var documentId = await noteController.addNotes();
+                //  GoRouter.of(context).pushNamed('edit_page',pathParameters: {'documentId': documentId});
+                noteController.fetchNotes();
+              },
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30)),
+              child: const Icon(Icons.refresh),
+            ),
+          ],
+        );
+      }),
       body: GetBuilder<NoteController>(
           init: NoteController(),
           builder: (controller) {
