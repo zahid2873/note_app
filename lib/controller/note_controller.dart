@@ -41,6 +41,7 @@ class NoteController extends GetxController {
     notes =
         await DbHelper.getNotes(authController.user!.uid) as List<NoteModel>;
     isLoading = false;
+    notes.sort((a, b) => b.timestamp!.compareTo(a.timestamp!));
     update();
   }
 
