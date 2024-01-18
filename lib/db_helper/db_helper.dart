@@ -45,13 +45,6 @@ class DbHelper {
     _db.collection(_collectionNote).doc(documentId).delete();
   }
 
-  // static deleteNote(String documentId) {
-  //   _db.collection(_collectionNote).get().then((snapshot) {
-  // for (DocumentSnapshot ds in snapshot.docs.where(('field') == 'specificValue'){
-  //   ds.reference.delete();
-  //   });
-  // });
-  // }
 
   static Future<bool> batchDelete(List<NoteModel> docList) async {
     try {

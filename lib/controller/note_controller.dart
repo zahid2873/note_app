@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:note_app/constant/color_palette.dart';
 import 'package:note_app/controller/auth_controller.dart';
 import 'package:note_app/db_helper/db_helper.dart';
 import 'package:note_app/model/note_model.dart';
@@ -29,6 +30,7 @@ class NoteController extends GetxController {
         content: '',
         timestamp: Timestamp.now());
     String documentId = await DbHelper.addNote(noteModel);
+    fetchNotes();
     update();
     return documentId;
   }
@@ -57,10 +59,27 @@ class NoteController extends GetxController {
         documentId: docId,
         title: titleController.text,
         content: contentController.text,
+        color: getColor(docId),
         timestamp: Timestamp.now());
     DbHelper.updateNote(docId, noteModel);
     update();
     fetchNotes();
+  }
+
+  getColor(String docID) {
+    fetchNotes();
+    if (notes.isEmpty) return;
+    NoteModel noteModel = notes.firstWhere(
+      (element) => element.documentId == docID,
+      orElse: () {
+        throw Exception('No element found with documentId: $docID');
+      },
+    );
+    //if (noteModel.isBlank ?? false) return;
+    if (noteModel.documentId == docID) {
+      return noteModel.color;
+    }
+    return ColorPalette.teal;
   }
 
   updateNoteColor(String docId, int selectedColor) {
